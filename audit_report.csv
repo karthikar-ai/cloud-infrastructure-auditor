@@ -1,0 +1,4 @@
+type,id,status,estimated_monthly_cost
+EBS Volume,vol-001,Unattached,8.0
+Elastic IP,eip-001,Unused,3.65
+EC2 Instance,i-001,Underutilized,25.0
