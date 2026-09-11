@@ -1,0 +1,23 @@
+{
+    "resources": [
+        {
+            "type": "EBS Volume",
+            "id": "vol-001",
+            "status": "Unattached",
+            "estimated_monthly_cost": 8.0
+        },
+        {
+            "type": "Elastic IP",
+            "id": "eip-001",
+            "status": "Unused",
+            "estimated_monthly_cost": 3.65
+        },
+        {
+            "type": "EC2 Instance",
+            "id": "i-001",
+            "status": "Underutilized",
+            "estimated_monthly_cost": 25.0
+        }
+    ],
+    "estimated_monthly_savings": 36.65
+}
