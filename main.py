@@ -1,7 +1,7 @@
 import typer
 
 app = typer.Typer(
-    help="Cloud Infrastructure Auditor - Audit and optimize cloud resources."
+    help="Cloud Infrastructure Auditor - Audit cloud resources safely."
 )
 
 
