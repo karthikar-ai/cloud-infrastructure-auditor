@@ -1,4 +1,4 @@
- Cloud Infrastructure Auditor \& Cost Optimizer
+ ## Cloud Infrastructure Auditor \& Cost Optimizer
 
 
 
@@ -6,7 +6,7 @@ A Python-based CLI tool that audits cloud infrastructure resources and identifie
 
 
 
-Features
+## Features
 
 
 
