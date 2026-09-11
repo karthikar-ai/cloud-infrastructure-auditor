@@ -1,4 +1,4 @@
-\# ☁️ Cloud Infrastructure Auditor \& Cost Optimizer
+ Cloud Infrastructure Auditor \& Cost Optimizer
 
 
 
@@ -6,27 +6,27 @@ A Python-based CLI tool that audits cloud infrastructure resources and identifie
 
 
 
-\## 🚀 Features
+Features
 
 
 
-\- 🔍 Audits cloud resources for potential cost waste
+-  Audits cloud resources for potential cost waste
 
-\- 💰 Estimates possible monthly savings
+-  Estimates possible monthly savings
 
-\- 📊 Generates JSON and CSV audit reports
+-  Generates JSON and CSV audit reports
 
-\- 🛡️ Uses a safe dry-run cleanup approach
+-  Uses a safe dry-run cleanup approach
 
-\- ☁️ Designed for AWS cloud infrastructure auditing
+-  Designed for AWS cloud infrastructure auditing
 
-\- 🧪 Supports mock resources for testing without a real AWS account
+-  Supports mock resources for testing without a real AWS account
 
-\- 💻 Simple command-line interface using Typer
+-  Simple command-line interface using Typer
 
 
 
-\## 📋 Current Audit Checks
+##  Current Audit Checks
 
 
 
@@ -46,27 +46,27 @@ The project currently identifies:
 
 
 
-\## 🛠️ Tech Stack
+## 🛠️ Tech Stack
 
 
 
-\- Python
+- Python
 
-\- Typer
+- Typer
 
-\- Boto3
+- Boto3
 
-\- Moto
+- Moto
 
-\- JSON
+- JSON
 
-\- CSV
+- CSV
 
-\- Git \& GitHub
+- Git \& GitHub
 
 
 
-\## 📁 Project Structure
+##  Project Structure
 
 
 
