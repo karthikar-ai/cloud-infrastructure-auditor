@@ -9,6 +9,22 @@ from rich.table import Table
 app = typer.Typer(
     help="Cloud Infrastructure Auditor - Audit cloud resources safely."
 )
+VERSION = "1.0.0"
+@app.callback(invoke_without_command=True)
+def main(
+    ctx: typer.Context,
+    version: bool = typer.Option(
+        False,
+        "--version",
+        help="Show the application version."
+    )
+):
+    if version:
+        typer.echo(f"Cloud Infrastructure Auditor v{VERSION}")
+        raise typer.Exit()
+
+    if ctx.invoked_subcommand is None:
+        typer.echo(ctx.get_help())
 
 console = Console()
 
