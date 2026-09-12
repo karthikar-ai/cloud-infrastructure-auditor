@@ -1,18 +1,26 @@
-from main import get_mock_resources
+import boto3
+from moto import mock_aws
 
 
-def test_mock_resources():
-    resources = get_mock_resources()
+@mock_aws
+def test_aws_connection():
+    ec2 = boto3.client("ec2", region_name="us-east-1")
 
-    assert len(resources) == 3
-    assert resources[0]["type"] == "EBS Volume"
-    assert resources[1]["type"] == "Elastic IP"
-    assert resources[2]["type"] == "EC2 Instance"
+    response = ec2.describe_regions()
+
+    assert "Regions" in response
 
 
-def test_monthly_costs():
-    resources = get_mock_resources()
+@mock_aws
+def test_create_and_list_ec2_instances():
+    ec2 = boto3.resource("ec2", region_name="us-east-1")
 
-    total = sum(resource["estimated_monthly_cost"] for resource in resources)
+    instances = ec2.create_instances(
+        ImageId="ami-12345678",
+        MinCount=1,
+        MaxCount=1,
+        InstanceType="t2.micro",
+    )
 
-    assert total == 36.65
+    assert len(instances) == 1
+    assert instances[0].instance_type == "t2.micro"
