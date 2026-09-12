@@ -1,6 +1,7 @@
 import csv
 import json
 import os
+import time
 import boto3
 
 import typer
@@ -16,6 +17,38 @@ def get_aws_profile():
     """Return the configured AWS profile name, if available."""
     session = boto3.Session()
     return session.profile_name or "default"
+AWS_REGIONS = {
+    "us-east-1": "US East (N. Virginia)",
+    "us-east-2": "US East (Ohio)",
+    "us-west-1": "US West (N. California)",
+    "us-west-2": "US West (Oregon)",
+    "ap-south-1": "Asia Pacific (Mumbai)",
+    "ap-southeast-1": "Asia Pacific (Singapore)",
+    "eu-west-1": "Europe (Ireland)",
+}
+
+
+def get_region_name(region_code):
+    """Return a readable AWS region name."""
+    return AWS_REGIONS.get(region_code, region_code)
+def api_call_with_retry(api_call, max_retries=3):
+    """Retry AWS API calls when temporary throttling occurs."""
+    for attempt in range(max_retries):
+        try:
+            return api_call()
+        except Exception as error:
+            if "Throttl" not in str(error):
+                raise
+
+            if attempt == max_retries - 1:
+                raise
+
+            wait_time = 2 ** attempt
+            console.print(
+                f"[yellow]AWS API throttled. Retrying in "
+                f"{wait_time} seconds...[/yellow]"
+            )
+            time.sleep(wait_time)
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
