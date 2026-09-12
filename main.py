@@ -2,10 +2,15 @@ import csv
 import json
 
 import typer
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
 app = typer.Typer(
     help="Cloud Infrastructure Auditor - Audit cloud resources safely."
 )
+
+console = Console()
 
 
 def get_mock_resources():
@@ -62,46 +67,64 @@ def save_csv_report(resources):
 
 def show_dry_run(resources):
     """Show proposed cleanup actions without deleting anything."""
-    typer.echo("\nDry-Run Cleanup Plan:")
-    typer.echo("-" * 40)
+    console.print("\n[bold cyan]Dry-Run Cleanup Plan[/bold cyan]")
 
     for resource in resources:
-        typer.echo(
-            f"[DRY-RUN] Would review {resource['type']} "
-            f"{resource['id']} ({resource['status']})"
+        console.print(
+            f"[yellow][DRY-RUN][/yellow] Would review "
+            f"{resource['type']} {resource['id']} "
+            f"({resource['status']})"
         )
 
-    typer.echo("\nNo resources were deleted.")
+    console.print("\n[bold green]✓ No resources were deleted.[/bold green]")
 
 
 @app.command()
 def audit():
     """Scan AWS resources and identify potential cost savings."""
-    typer.echo("Cloud Infrastructure Auditor")
-    typer.echo("=" * 40)
+    console.print(
+        Panel.fit(
+            "[bold cyan]Cloud Infrastructure Auditor[/bold cyan]\n"
+            "Cloud cost optimization and resource audit",
+            border_style="cyan",
+        )
+    )
 
     resources = get_mock_resources()
     total_savings = 0.0
 
-    typer.echo("\nPotential Cost Optimization Findings:\n")
+    table = Table(title="Potential Cost Optimization Findings")
+
+    table.add_column("Resource", style="cyan")
+    table.add_column("Resource ID", style="magenta")
+    table.add_column("Status", style="yellow")
+    table.add_column("Monthly Cost", justify="right", style="green")
 
     for resource in resources:
-        typer.echo(
-            f"{resource['type']} | "
-            f"{resource['id']} | "
-            f"{resource['status']} | "
-            f"${resource['estimated_monthly_cost']:.2f}/month"
+        table.add_row(
+            resource["type"],
+            resource["id"],
+            resource["status"],
+            f"${resource['estimated_monthly_cost']:.2f}/month",
         )
 
         total_savings += resource["estimated_monthly_cost"]
 
-    typer.echo(f"\nEstimated Monthly Savings: ${total_savings:.2f}")
+    console.print(table)
+
+    console.print(
+        Panel(
+            f"[bold green]Estimated Monthly Savings: "
+            f"${total_savings:.2f}[/bold green]",
+            border_style="green",
+        )
+    )
 
     save_json_report(resources, total_savings)
     save_csv_report(resources)
 
-    typer.echo("\nJSON report saved: audit_report.json")
-    typer.echo("CSV report saved: audit_report.csv")
+    console.print("\n[green]✓ JSON report saved:[/green] audit_report.json")
+    console.print("[green]✓ CSV report saved:[/green] audit_report.csv")
 
     show_dry_run(resources)
 
