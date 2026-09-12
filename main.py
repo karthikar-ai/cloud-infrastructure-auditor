@@ -1,5 +1,7 @@
 import csv
 import json
+import os
+import boto3
 
 import typer
 from rich.console import Console
@@ -10,6 +12,10 @@ app = typer.Typer(
     help="Cloud Infrastructure Auditor - Audit cloud resources safely."
 )
 VERSION = "1.0.0"
+def get_aws_profile():
+    """Return the configured AWS profile name, if available."""
+    session = boto3.Session()
+    return session.profile_name or "default"
 @app.callback(invoke_without_command=True)
 def main(
     ctx: typer.Context,
